@@ -1,0 +1,22 @@
+{
+    "name": "stivehu/yii2-persistcheckbox",
+    "description": "Selected checkbox is remain after paging",
+    "type": "yii2-extension",
+    "keywords": ["yii2","extension","widgets","checkbox","cookie","permanent","persistent"],
+    "license": "GPL-3.0",
+    "authors": [
+        {
+            "name": "Gábor István",
+            "email": "stive.hu@gmail.com"
+        }
+    ],
+    "require": {
+        "yiisoft/yii2": "*",
+	"stivehu/yii2-rangecomp": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "stivehu\\grid\\": ""
+        }
+    }
+}
