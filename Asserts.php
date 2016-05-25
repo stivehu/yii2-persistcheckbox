@@ -18,7 +18,8 @@ class Asserts extends AssetBundle
         'persistcheckbox.js'
     ];
     public $depends = [
-        'stivehu\rangecomp\Asserts'
+        'stivehu\rangecomp\Asserts',
+        'stivehu\enhancedcookie\Asserts'
     ];
 
     public function init()

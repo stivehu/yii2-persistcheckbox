@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @link https://github.com/stivehu/yii2-persistcheckbox/
+ * @link http://www.yiiframework.com/
  * @license http://www.yiiframework.com/license/
  */
 

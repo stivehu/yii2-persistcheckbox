@@ -12,7 +12,8 @@
     ],
     "require": {
         "yiisoft/yii2": "*",
-	"stivehu/yii2-rangecomp": "*"
+	"stivehu/yii2-rangecomp": "*",
+         "stivehu/yii2-enhanced.cookie":"*"
     },
     "autoload": {
         "psr-4": {
