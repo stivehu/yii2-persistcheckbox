@@ -34,28 +34,6 @@ class PersistCheckBoxColumn extends CheckboxColumn
     }
 
     /**
-     * append the fragmented cookies
-     * @param cookie root name
-     * @return appended cookie
-     */
-    private function getBigCookie($cookieName)
-    {
-        $result = false;
-        if (isset($_COOKIE[$cookieName])) {
-            $result = $_COOKIE[$cookieName];
-        }
-
-        for ($i = 1; $i < 1000; $i++) {
-            if (isset($_COOKIE[$cookieName . "---$i"])) {
-                $result = $result . $_COOKIE[$cookieName . "---$i"];
-            } else {
-                break;
-            }
-        }
-        return $result;
-    }
-
-    /**
      * @inheritdoc
      */
     protected function renderDataCellContent($model, $key, $index)
@@ -70,7 +48,7 @@ class PersistCheckBoxColumn extends CheckboxColumn
             }
         }
         $checked = false;
-        if ($selectedItem = \stivehu\rangecomp\Rangecomp::rangeDeCompress(Json::decode($this->getBigCookie($this->cookieName)))) {
+        if ($selectedItem = \stivehu\rangecomp\Rangecomp::rangeDeCompress(Json::decode(\stivehu\enhancedcookie\EnhancedCookie::getBigCookie($this->cookieName)))) {
             if (in_array($model->id, $selectedItem)) {
                 $checked = true;
             }

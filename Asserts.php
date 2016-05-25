@@ -15,11 +15,9 @@ class Asserts extends AssetBundle
 
     public $sourcePath = '@persistcheckbox/assets';
     public $js = [
-        'jquery.enhanced.cookie.js',
         'persistcheckbox.js'
     ];
     public $depends = [
-        'yii\web\JqueryAsset',
         'stivehu\rangecomp\Asserts'
     ];
 
