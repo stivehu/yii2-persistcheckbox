@@ -21,8 +21,7 @@ use yii\web\View;
  *
  * @author Gábor István
  */
-class PersistCheckBoxColumn extends CheckboxColumn
-{
+class PersistCheckBoxColumn extends CheckboxColumn {
 
     /**
      * @var string
@@ -30,8 +29,7 @@ class PersistCheckBoxColumn extends CheckboxColumn
      */
     public $cookieName = 'selected';
 
-    public function init()
-    {
+    public function init() {
         Yii::$app->view->registerJs('var cookieName = "' . $this->cookieName . '"', View::POS_HEAD);
         Asserts::register($this->grid->getView());
         return parent::init();
@@ -40,8 +38,7 @@ class PersistCheckBoxColumn extends CheckboxColumn
     /**
      * @inheritdoc
      */
-    protected function renderDataCellContent($model, $key, $index)
-    {
+    protected function renderDataCellContent($model, $key, $index) {
 
         if ($this->checkboxOptions instanceof Closure) {
             $options = call_user_func($this->checkboxOptions, $model, $key, $index, $this);
@@ -52,7 +49,8 @@ class PersistCheckBoxColumn extends CheckboxColumn
             }
         }
         $checked = false;
-        if ($selectedItem = Rangecomp::rangeDeCompress(Json::decode(EnhancedCookie::getBigCookie($this->cookieName)))) {
+        $cookie = EnhancedCookie::getBigCookie($this->cookieName);
+        if ($cookie != false && $selectedItem = Rangecomp::rangeDeCompress(Json::decode($cookie))) {
             if (in_array($model->id, $selectedItem)) {
                 $checked = true;
             }
@@ -64,8 +62,7 @@ class PersistCheckBoxColumn extends CheckboxColumn
      * No need summary cell
      * @return type null
      */
-    public function renderPageSummaryCell()
-    {
+    public function renderPageSummaryCell() {
         return null;
     }
 
