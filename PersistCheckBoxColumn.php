@@ -8,9 +8,13 @@
 namespace stivehu\grid;
 
 use Closure;
+use stivehu\enhancedcookie\EnhancedCookie;
+use stivehu\rangecomp\Rangecomp;
+use Yii;
 use yii\grid\CheckboxColumn;
 use yii\helpers\Html;
 use yii\helpers\Json;
+use yii\web\View;
 
 /**
  * PersistCheckBoxColumn create persistent checkbox
@@ -28,7 +32,7 @@ class PersistCheckBoxColumn extends CheckboxColumn
 
     public function init()
     {
-        \Yii::$app->view->registerJs('var cookieName = "' . $this->cookieName . '"', \yii\web\View::POS_HEAD);
+        Yii::$app->view->registerJs('var cookieName = "' . $this->cookieName . '"', View::POS_HEAD);
         Asserts::register($this->grid->getView());
         return parent::init();
     }
@@ -48,7 +52,7 @@ class PersistCheckBoxColumn extends CheckboxColumn
             }
         }
         $checked = false;
-        if ($selectedItem = \stivehu\rangecomp\Rangecomp::rangeDeCompress(Json::decode(\stivehu\enhancedcookie\EnhancedCookie::getBigCookie($this->cookieName)))) {
+        if ($selectedItem = Rangecomp::rangeDeCompress(Json::decode(EnhancedCookie::getBigCookie($this->cookieName)))) {
             if (in_array($model->id, $selectedItem)) {
                 $checked = true;
             }
