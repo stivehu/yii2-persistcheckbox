@@ -8,6 +8,9 @@
 namespace stivehu\grid;
 
 use Closure;
+use stivehu\enhancedcookie\EnhancedCookie;
+use stivehu\rangecomp\Rangecomp;
+use yii\base\InvalidValueException;
 use yii\grid\CheckboxColumn;
 use yii\helpers\Html;
 use yii\helpers\Json;
@@ -17,7 +20,8 @@ use yii\helpers\Json;
  *
  * @author Gábor István
  */
-class PersistCheckBoxColumn extends CheckboxColumn {
+class PersistCheckBoxColumn extends CheckboxColumn
+{
 
     /**
      * @var string
@@ -25,16 +29,24 @@ class PersistCheckBoxColumn extends CheckboxColumn {
      */
     public $cookieName = 'selected';
 
-    public function init() {
+    /**
+     * @throws \yii\base\InvalidConfigException
+     */
+    public function init()
+    {
         \Yii::$app->view->registerJs('var cookieName = "' . $this->cookieName . '"', \yii\web\View::POS_HEAD);
         Asserts::register($this->grid->getView());
         return parent::init();
     }
 
     /**
-     * @inheritdoc
+     * @param mixed $model
+     * @param mixed $key
+     * @param int $index
+     * @return string
      */
-    protected function renderDataCellContent($model, $key, $index) {
+    protected function renderDataCellContent($model, $key, $index): string
+    {
 
         if ($this->checkboxOptions instanceof Closure) {
             $options = call_user_func($this->checkboxOptions, $model, $key, $index, $this);
@@ -45,12 +57,18 @@ class PersistCheckBoxColumn extends CheckboxColumn {
             }
         }
         $checked = false;
-        $cookie = \stivehu\enhancedcookie\EnhancedCookie::getBigCookie($this->cookieName);
-        if ($cookie && $selectedItem = \stivehu\rangecomp\Rangecomp::rangeDeCompress(Json::decode($cookie))) {
-            if (in_array($model->id, $selectedItem)) {
-                $checked = true;
+
+        try {
+            $bigCookie = EnhancedCookie::getBigCookie($this->cookieName);
+            if ((null !== $bigCookie) && ($selectedItem = Rangecomp::rangeDeCompress(Json::decode($bigCookie)))) {
+                if (in_array($model->id, $selectedItem)) {
+                    $checked = true;
+                }
             }
+        } catch (\yii\base\InvalidArgumentException $ex) {
+
         }
+
         return Html::checkbox($this->name, $checked, $options);
     }
 
@@ -58,7 +76,8 @@ class PersistCheckBoxColumn extends CheckboxColumn {
      * No need summary cell
      * @return type null
      */
-    public function renderPageSummaryCell() {
+    public function renderPageSummaryCell()
+    {
         return null;
     }
 
